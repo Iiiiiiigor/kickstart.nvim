@@ -959,7 +959,7 @@ require('lazy').setup({
       picker = { enabled = true },
       quickfile = { enabled = true },
       scope = { enabled = true },
-      scroll = { enabled = true },
+      scroll = { enabled = true, speed = 5 },
       statuscolumn = { enabled = true },
       words = { enabled = true },
       styles = {
