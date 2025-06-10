@@ -408,6 +408,7 @@ require('lazy').setup({
 
       -- Allows extra capabilities provided by blink.cmp
       'saghen/blink.cmp',
+      -- { 'ms-jpq/coq_nvim', branch = 'coq' },
     },
     config = function()
       --  This function gets run when an LSP attaches to a particular buffer.
@@ -840,7 +841,7 @@ require('lazy').setup({
     opts = {
       bigfile = { enabled = true },
       dashboard = { enabled = true },
-      explorer = { enabled = true },
+      explorer = { enabled = false },
       indent = { enabled = true },
       input = { enabled = true },
       notifier = {
@@ -852,10 +853,10 @@ require('lazy').setup({
       scope = { enabled = true },
       scroll = { enabled = false, speed = 15 },
       statuscolumn = { enabled = true },
-      words = { enabled = true },
+      words = { enabled = false },
       styles = {
         notification = {
-          -- wo = { wrap = true } -- Wrap notifications
+          wo = { wrap = true }, -- Wrap notifications
         },
       },
     },
@@ -899,7 +900,7 @@ require('lazy').setup({
       {
         '<leader>e',
         function()
-          Snacks.explorer()
+          Neotree()
         end,
         desc = 'File Explorer',
       },
@@ -1422,7 +1423,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
+  require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
