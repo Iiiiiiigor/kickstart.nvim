@@ -900,7 +900,7 @@ require('lazy').setup({
       {
         '<leader>e',
         function()
-          Neotree()
+          vim.cmd('Neotree')
         end,
         desc = 'File Explorer',
       },
