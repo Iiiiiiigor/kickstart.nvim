@@ -689,6 +689,17 @@ require('lazy').setup({
             },
           },
         },
+        jedi_language_server = {
+          init_options = {
+            workspace = {
+              environmentPath = vim.fn.exepath('python')  -- Use system Python
+            },
+            completion = {
+              disableSnippets = true,  -- Better for pure navigation
+              resolveEagerly = false
+            }
+          }
+        },
       }
 
       -- Ensure the servers and tools above are installed
