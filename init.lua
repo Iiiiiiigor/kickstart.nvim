@@ -643,19 +643,7 @@ require('lazy').setup({
             [vim.diagnostic.severity.HINT] = '󰌶 ',
           },
         } or {},
-        virtual_text = {
-          source = 'if_many',
-          spacing = 2,
-          format = function(diagnostic)
-            local diagnostic_message = {
-              [vim.diagnostic.severity.ERROR] = diagnostic.message,
-              [vim.diagnostic.severity.WARN] = diagnostic.message,
-              [vim.diagnostic.severity.INFO] = diagnostic.message,
-              [vim.diagnostic.severity.HINT] = diagnostic.message,
-            }
-            return diagnostic_message[diagnostic.severity]
-          end,
-        },
+        virtual_text = false, -- Disable native virtual text
       }
 
       -- LSP servers and clients are able to communicate to each other what features they support.
@@ -1508,6 +1496,15 @@ require('lazy').setup({
     --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+  },
+
+  -- Better diagnostic virtual text for narrow windows
+  {
+    'sontungexpt/better-diagnostic-virtual-text',
+    event = "LspAttach",
+    config = function()
+      require('better-diagnostic-virtual-text').setup()
+    end
   },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
