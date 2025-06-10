@@ -691,14 +691,17 @@ require('lazy').setup({
         },
         jedi_language_server = {
           init_options = {
-            workspace = {
-              environmentPath = vim.fn.exepath('python')  -- Use system Python
-            },
             completion = {
-              disableSnippets = true,  -- Better for pure navigation
-              resolveEagerly = false
-            }
-          }
+              disableSnippets = true, -- Better for pure navigation
+              resolveEagerly = false,
+            },
+            diagnostics = {
+              enable = true,
+              didOpen = true,
+              didChange = true,
+              didSave = true,
+            },
+          },
         },
       }
 
@@ -1512,10 +1515,10 @@ require('lazy').setup({
   -- Better diagnostic virtual text for narrow windows
   {
     'sontungexpt/better-diagnostic-virtual-text',
-    event = "LspAttach",
+    event = 'LspAttach',
     config = function()
       require('better-diagnostic-virtual-text').setup()
-    end
+    end,
   },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
@@ -1566,5 +1569,6 @@ require('lazy').setup({
   },
 })
 
+vim.lsp.enable 'jedi_language_server'
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
