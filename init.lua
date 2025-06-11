@@ -275,6 +275,17 @@ require('lazy').setup({
   --
   -- Use the `dependencies` key to specify the dependencies of a particular plugin
 
+  {
+    'folke/lazydev.nvim',
+    ft = 'lua', -- only load on lua files
+    opts = {
+      library = {
+        -- See the configuration section for more details
+        -- Load luvit types when the `vim.uv` word is found
+        { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+      },
+    },
+  },
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
     event = 'VimEnter',
@@ -581,6 +592,10 @@ require('lazy').setup({
         },
         jedi_language_server = {
           init_options = {
+            codeAction = {
+              nameExtractVariable = jls_extract_var,
+              nameExtractFunction = jls_extract_def,
+            },
             completion = {
               disableSnippets = true, -- Better for pure navigation
               resolveEagerly = false,
@@ -900,7 +915,7 @@ require('lazy').setup({
       {
         '<leader>e',
         function()
-          vim.cmd('Neotree')
+          vim.cmd 'Neotree'
         end,
         desc = 'File Explorer',
       },
