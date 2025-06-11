@@ -198,6 +198,47 @@ require('lazy').setup({
         topdelete = { text = '‾' },
         changedelete = { text = '~' },
       },
+      on_attach = function(bufnr)
+        local gitsigns = require('gitsigns')
+
+        local function map(mode, l, r, opts)
+          opts = opts or {}
+          opts.buffer = bufnr
+          vim.keymap.set(mode, l, r, opts)
+        end
+
+        -- Navigation
+        map('n', ']h', function()
+          if vim.wo.diff then
+            vim.cmd.normal({']c', bang = true})
+          else
+            gitsigns.nav_hunk('next')
+          end
+        end, { desc = 'Next Hunk' })
+
+        map('n', '[h', function()
+          if vim.wo.diff then
+            vim.cmd.normal({'[c', bang = true})
+          else
+            gitsigns.nav_hunk('prev')
+          end
+        end, { desc = 'Previous Hunk' })
+
+        -- Hunk Actions
+        map('n', '<leader>ghs', gitsigns.stage_hunk, { desc = '[G]it [H]unk [S]tage' })
+        map('n', '<leader>ghr', gitsigns.reset_hunk, { desc = '[G]it [H]unk [R]eset' })
+        map('v', '<leader>ghs', function()
+          gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+        end, { desc = '[G]it [H]unk [S]tage (visual)' })
+        map('v', '<leader>ghr', function()
+          gitsigns.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+        end, { desc = '[G]it [H]unk [R]eset (visual)' })
+        map('n', '<leader>ghp', gitsigns.preview_hunk, { desc = '[G]it [H]unk [P]review' })
+        map('n', '<leader>ghb', function()
+          gitsigns.blame_line({ full = true })
+        end, { desc = '[G]it [H]unk [B]lame' })
+        map('n', '<leader>ghd', gitsigns.diffthis, { desc = '[G]it [H]unk [D]iff' })
+      end,
     },
   },
 
