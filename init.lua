@@ -170,7 +170,30 @@ require('lazy').setup({
     config = function()
       local conf = {
         openai_api_key = os.getenv("OPENAI_API_KEY"),
-        -- Add other configuration options here as needed
+        providers = {
+          openrouter = {
+            endpoint = "https://openrouter.ai/api/v1/chat/completions",
+            secret = os.getenv("OPENROUTER_API_KEY"),
+          },
+        },
+        agents = {
+          {
+            name = "OpenRouter GPT-4",
+            provider = "openrouter",
+            chat = true,
+            command = true,
+            model = { model = "openai/gpt-4" },
+            system_prompt = "You are a helpful AI assistant.",
+          },
+          {
+            name = "OpenRouter Claude 2",
+            provider = "openrouter",
+            chat = true,
+            command = true,
+            model = { model = "anthropic/claude-2" },
+            system_prompt = "You are a helpful AI assistant.",
+          },
+        },
       }
       require("gp").setup(conf)
 
