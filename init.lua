@@ -165,6 +165,23 @@ rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
+  {
+    "robitx/gp.nvim",
+    config = function()
+      local conf = {
+        openai_api_key = os.getenv("OPENAI_API_KEY"),
+        -- Add other configuration options here as needed
+      }
+      require("gp").setup(conf)
+
+      -- Setup shortcuts here (see Usage > Shortcuts in the Documentation/Readme)
+      vim.keymap.set({"n", "i"}, "<C-g>c", "<cmd>GpChatNew<cr>", { desc = "New Chat" })
+      vim.keymap.set({"n", "i"}, "<C-g>t", "<cmd>GpChatToggle<cr>", { desc = "Toggle Chat" })
+      vim.keymap.set({"n", "i"}, "<C-g>r", "<cmd>GpRewrite<cr>", { desc = "Inline Rewrite" })
+      vim.keymap.set({"n", "i"}, "<C-g>a", "<cmd>GpAppend<cr>", { desc = "Append (after)" })
+      vim.keymap.set({"n", "i"}, "<C-g>b", "<cmd>GpPrepend<cr>", { desc = "Prepend (before)" })
+    end,
+  },
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
