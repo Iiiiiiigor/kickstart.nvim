@@ -3,7 +3,6 @@
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
@@ -38,7 +37,7 @@ vim.o.breakindent = true
 -- Save undo history
 vim.o.undofile = true
 
-vim.o.undodir = '$HOME/.local/share/nvim/undo' -- where to save undo histories
+vim.o.undodir = vim.fn.expand '~' .. '/.local/share/nvim/undo'
 vim.o.undolevels = 1000 -- How many undos
 vim.o.undoreload = 10000 -- number of lines to save for undo
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
@@ -74,7 +73,6 @@ vim.o.inccommand = 'split'
 
 -- Show which line your cursor is on
 vim.o.cursorline = true
-
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.o.scrolloff = 10
 
@@ -166,43 +164,44 @@ require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
   {
-    "robitx/gp.nvim",
+    'robitx/gp.nvim',
     config = function()
       local conf = {
-        openai_api_key = os.getenv("OPENAI_API_KEY"),
+        openai_api_key = os.getenv 'OPENAI_API_KEY',
         providers = {
           openrouter = {
-            endpoint = "https://openrouter.ai/api/v1/chat/completions",
-            secret = os.getenv("OPENROUTER_API_KEY"),
+            endpoint = 'https://openrouter.ai/api/v1/chat/completions',
+            secret = os.getenv 'OPENROUTER_API_KEY',
           },
         },
         agents = {
           {
-            name = "OpenRouter GPT-4",
-            provider = "openrouter",
+            name = 'Deepseek chat V3',
+            provider = 'openrouter',
             chat = true,
             command = true,
-            model = { model = "openai/gpt-4" },
-            system_prompt = "You are a helpful AI assistant.",
+            model = { model = 'deepseek/deepseek-chat' },
+            system_prompt = 'You are a helpful AI assistant.',
           },
           {
-            name = "OpenRouter Claude 2",
-            provider = "openrouter",
+            name = 'qwen3',
+            provider = 'openrouter',
             chat = true,
             command = true,
-            model = { model = "anthropic/claude-2" },
-            system_prompt = "You are a helpful AI assistant.",
+            model = { model = 'qwen/qwen3-235b-a22b' },
+            system_prompt = 'You are a helpful AI assistant.',
           },
         },
+        default_command_agent = nil,
+        default_chat_agent = 'Deepseek chat V3',
       }
-      require("gp").setup(conf)
+      require('gp').setup(conf)
 
       -- Setup shortcuts here (see Usage > Shortcuts in the Documentation/Readme)
-      vim.keymap.set({"n", "i"}, "<C-g>c", "<cmd>GpChatNew<cr>", { desc = "New Chat" })
-      vim.keymap.set({"n", "i"}, "<C-g>t", "<cmd>GpChatToggle<cr>", { desc = "Toggle Chat" })
-      vim.keymap.set({"n", "i"}, "<C-g>r", "<cmd>GpRewrite<cr>", { desc = "Inline Rewrite" })
-      vim.keymap.set({"n", "i"}, "<C-g>a", "<cmd>GpAppend<cr>", { desc = "Append (after)" })
-      vim.keymap.set({"n", "i"}, "<C-g>b", "<cmd>GpPrepend<cr>", { desc = "Prepend (before)" })
+      vim.keymap.set({ 'n', 'i' }, '<C-g>c', '<cmd>GpChatNew<cr>', { desc = 'New Chat' })
+      vim.keymap.set({ 'n', 'i' }, '<C-g>t', '<cmd>GpChatToggle<cr>', { desc = 'Toggle Chat' })
+      vim.keymap.set({ 'n', 'i' }, '<C-g>r', '<cmd>GpRewrite<cr>', { desc = 'Inline Rewrite' })
+      vim.keymap.set({ 'n', 'i' }, '<C-g>n', '<cmd>GpNextAgent<cr>', { desc = 'Next Agent' })
     end,
   },
 
@@ -239,7 +238,7 @@ require('lazy').setup({
         changedelete = { text = '~' },
       },
       on_attach = function(bufnr)
-        local gitsigns = require('gitsigns')
+        local gitsigns = require 'gitsigns'
 
         local function map(mode, l, r, opts)
           opts = opts or {}
@@ -250,17 +249,17 @@ require('lazy').setup({
         -- Navigation
         map('n', ']h', function()
           if vim.wo.diff then
-            vim.cmd.normal({']c', bang = true})
+            vim.cmd.normal { ']c', bang = true }
           else
-            gitsigns.nav_hunk('next')
+            gitsigns.nav_hunk 'next'
           end
         end, { desc = 'Next Hunk' })
 
         map('n', '[h', function()
           if vim.wo.diff then
-            vim.cmd.normal({'[c', bang = true})
+            vim.cmd.normal { '[c', bang = true }
           else
-            gitsigns.nav_hunk('prev')
+            gitsigns.nav_hunk 'prev'
           end
         end, { desc = 'Previous Hunk' })
 
@@ -268,14 +267,14 @@ require('lazy').setup({
         map('n', '<leader>ghs', gitsigns.stage_hunk, { desc = '[G]it [H]unk [S]tage' })
         map('n', '<leader>ghr', gitsigns.reset_hunk, { desc = '[G]it [H]unk [R]eset' })
         map('v', '<leader>ghs', function()
-          gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+          gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
         end, { desc = '[G]it [H]unk [S]tage (visual)' })
         map('v', '<leader>ghr', function()
-          gitsigns.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+          gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
         end, { desc = '[G]it [H]unk [R]eset (visual)' })
         map('n', '<leader>ghp', gitsigns.preview_hunk, { desc = '[G]it [H]unk [P]review' })
         map('n', '<leader>ghb', function()
-          gitsigns.blame_line({ full = true })
+          gitsigns.blame_line { full = true }
         end, { desc = '[G]it [H]unk [B]lame' })
         map('n', '<leader>ghd', gitsigns.diffthis, { desc = '[G]it [H]unk [D]iff' })
       end,
@@ -295,7 +294,24 @@ require('lazy').setup({
   --
   -- Then, because we use the `opts` key (recommended), the configuration runs
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
-
+  {
+    'nvim-treesitter/nvim-treesitter-context',
+    opts = {
+      enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+      multiwindow = false, -- Enable multiwindow support.
+      max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+      min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+      line_numbers = true,
+      multiline_threshold = 20, -- Maximum number of lines to show for a single context
+      trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+      mode = 'cursor', -- Line used to calculate context. Choices: 'cursor', 'topline'
+      -- Separator between context and content. Should be a single character string, like '-'.
+      -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+      separator = nil,
+      zindex = 20, -- The Z-index of the context window
+      on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
+    },
+  },
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
@@ -473,18 +489,6 @@ require('lazy').setup({
 
   -- LSP Plugins
   {
-    -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
-    -- used for completion, annotations and signatures of Neovim apis
-    'folke/lazydev.nvim',
-    ft = 'lua',
-    opts = {
-      library = {
-        -- Load luvit types when the `vim.uv` word is found
-        { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
-      },
-    },
-  },
-  {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
     dependencies = {
@@ -649,7 +653,7 @@ require('lazy').setup({
 
         lua_ls = {
           -- cmd = { ... },
-          -- filetypes = { ... },
+          filetypes = { 'lua' },
           -- capabilities = {},
           settings = {
             Lua = {
@@ -662,6 +666,7 @@ require('lazy').setup({
           },
         },
         jedi_language_server = {
+          filetypes = { 'python' },
           init_options = {
             codeAction = {
               nameExtractVariable = jls_extract_var,
@@ -672,7 +677,7 @@ require('lazy').setup({
               resolveEagerly = false,
             },
             diagnostics = {
-              enable = false,
+              enable = true,
               didOpen = true,
               didChange = true,
               didSave = true,
