@@ -205,11 +205,11 @@ require('lazy').setup({
       require('gp').setup(conf)
 
       -- Setup shortcuts here (see Usage > Shortcuts in the Documentation/Readme)
-      vim.keymap.set({ 'n', 'i' }, '<C-g>c', '<cmd>GpChatNew<cr>', { desc = 'New Chat' })
-      vim.keymap.set({ 'n', 'i' }, '<C-g>t', '<cmd>GpChatToggle<cr>', { desc = 'Toggle Chat' })
-      vim.keymap.set({ 'n', 'i' }, '<C-g>R', '<cmd>GpRewrite<cr>', { desc = 'Inline Rewrite' })
-      vim.keymap.set({ 'n', 'i' }, '<C-g>P', '<cmd>GpAppend<cr>', { desc = 'Append output' })
-      vim.keymap.set({ 'n', 'i' }, '<C-g>n', '<cmd>GpNextAgent<cr>', { desc = 'Next Agent' })
+      vim.keymap.set({ 'n', 'i' }, '<C-g>c', '<cmd>GpChatNew<cr>', { desc = 'GP: New Chat' })
+      vim.keymap.set({ 'n', 'i' }, '<C-g>t', '<cmd>GpChatToggle<cr>', { desc = 'GP: Toggle Chat' })
+      vim.keymap.set({ 'n', 'i' }, '<C-g>R', '<cmd>GpRewrite<cr>', { desc = 'GP: Inline Rewrite' })
+      vim.keymap.set({ 'n', 'i' }, '<C-g>P', '<cmd>GpAppend<cr>', { desc = 'GP: Append Output' })
+      vim.keymap.set({ 'n', 'i' }, '<C-g>n', '<cmd>GpNextAgent<cr>', { desc = 'GP: Next Agent' })
     end,
   },
 
@@ -370,6 +370,7 @@ require('lazy').setup({
         { '<leader>s', group = '[S]earch' },
         { '<leader>t', group = '[T]oggle' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        { '<C-g>', group = 'GP AI', mode = { 'n', 'i' } },
       },
     },
   },
