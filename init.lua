@@ -162,6 +162,13 @@ rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
+  {
+    'szymonwilczek/vim-be-better',
+    config = function()
+      -- Optional: Enable logging for debugging
+      vim.g.vim_be_better_log_file = 1
+    end,
+  },
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
   {
     'robitx/gp.nvim',
@@ -200,7 +207,8 @@ require('lazy').setup({
       -- Setup shortcuts here (see Usage > Shortcuts in the Documentation/Readme)
       vim.keymap.set({ 'n', 'i' }, '<C-g>c', '<cmd>GpChatNew<cr>', { desc = 'New Chat' })
       vim.keymap.set({ 'n', 'i' }, '<C-g>t', '<cmd>GpChatToggle<cr>', { desc = 'Toggle Chat' })
-      vim.keymap.set({ 'n', 'i' }, '<C-g>r', '<cmd>GpRewrite<cr>', { desc = 'Inline Rewrite' })
+      vim.keymap.set({ 'n', 'i' }, '<C-g>R', '<cmd>GpRewrite<cr>', { desc = 'Inline Rewrite' })
+      vim.keymap.set({ 'n', 'i' }, '<C-g>P', '<cmd>GpAppend<cr>', { desc = 'Append output' })
       vim.keymap.set({ 'n', 'i' }, '<C-g>n', '<cmd>GpNextAgent<cr>', { desc = 'Next Agent' })
     end,
   },
@@ -294,6 +302,7 @@ require('lazy').setup({
   --
   -- Then, because we use the `opts` key (recommended), the configuration runs
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
+  { 'simnalamburt/vim-mundo' },
   {
     'nvim-treesitter/nvim-treesitter-context',
     opts = {
