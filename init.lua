@@ -215,14 +215,14 @@ require('lazy').setup({
         default_chat_agent = 'Deepseek chat V3',
       }
       require('gp').setup(conf)
-
-      -- Setup shortcuts here (see Usage > Shortcuts in the Documentation/Readme)
-      vim.keymap.set({ 'n', 'i' }, '<C-g>c', '<cmd>GpChatNew<cr>', { desc = 'GP: New Chat' })
-      vim.keymap.set({ 'n', 'i' }, '<C-g>t', '<cmd>GpChatToggle<cr>', { desc = 'GP: Toggle Chat' })
-      vim.keymap.set({ 'n', 'i' }, '<C-g>R', '<cmd>GpRewrite<cr>', { desc = 'GP: Inline Rewrite' })
-      vim.keymap.set({ 'n', 'i' }, '<C-g>P', '<cmd>GpAppend<cr>', { desc = 'GP: Append Output' })
-      vim.keymap.set({ 'n', 'i' }, '<C-g>n', '<cmd>GpNextAgent<cr>', { desc = 'GP: Next Agent' })
     end,
+    keys = {
+      { '<C-g>c', '<cmd>GpChatNew<cr>', mode = { 'n', 'i' }, desc = 'GP: New Chat' },
+      { '<C-g>t', '<cmd>GpChatToggle<cr>', mode = { 'n', 'i' }, desc = 'GP: Toggle Chat' },
+      { '<C-g>R', '<cmd>GpRewrite<cr>', mode = { 'n', 'i' }, desc = 'GP: Inline Rewrite' },
+      { '<C-g>P', '<cmd>GpAppend<cr>', mode = { 'n', 'i' }, desc = 'GP: Append Output' },
+      { '<C-g>n', '<cmd>GpNextAgent<cr>', mode = { 'n', 'i' }, desc = 'GP: Next Agent' },
+    },
   },
 
   -- NOTE: Plugins can also be added by using a table,
