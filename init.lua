@@ -180,8 +180,20 @@ require('lazy').setup({
             endpoint = 'https://openrouter.ai/api/v1/chat/completions',
             secret = os.getenv 'OPENROUTER_API_KEY',
           },
+          localhost = {
+            endpoint = 'http://localhost:5001/v1/chat/completions',
+            secret = '',
+          },
         },
         agents = {
+          {
+            name = 'llama.cpp',
+            provider = 'localhost',
+            chat = true,
+            command = true,
+            system_prompt = 'You are a helpful AI assistant.',
+            model = { model = 'qwen3' },
+          },
           {
             name = 'Deepseek chat V3',
             provider = 'openrouter',
